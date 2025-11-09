@@ -58,7 +58,7 @@ function formatCurrency($value) {
         padding-bottom: 70px; /* Space for fixed footer */
     }
 
-    /* --- Navigation Bar --- */
+
     nav {
         background: var(--primary);
         display: flex;
@@ -98,7 +98,7 @@ function formatCurrency($value) {
         border-bottom: 2px solid #fff;
     }
     
-    /* --- Header Section --- */
+
     .header { 
         text-align: center; 
         margin-top: 40px; 
@@ -118,7 +118,7 @@ function formatCurrency($value) {
         font-weight: 500;
     }
 
-    /* --- Bookings Grid --- */
+
     .bookings-container {
         width: 90%;
         max-width: 1200px;
@@ -129,7 +129,7 @@ function formatCurrency($value) {
         padding-bottom: 50px;
     }
 
-    /* --- Booking Card --- */
+
     .booking-card {
         background: var(--card-bg);
         border-radius: 16px;
@@ -188,7 +188,7 @@ function formatCurrency($value) {
     .pending { background: var(--warning); color: var(--text-dark); }
     .cancelled { background: var(--danger); }
 
-    /* --- No Bookings State --- */
+
     .no-bookings {
         text-align: center;
         margin: 100px auto;
@@ -218,7 +218,7 @@ function formatCurrency($value) {
 
     .no-bookings a:hover { background: var(--primary); }
 
-    /* --- Footer --- */
+
     footer {
         background: var(--primary);
         color: white;
@@ -232,7 +232,7 @@ function formatCurrency($value) {
         z-index: 10;
     }
 
-    /* --- Mobile Adjustments --- */
+
     @media (max-width: 768px) {
         nav { flex-direction: column; align-items: center; padding: 15px 25px; }
         nav ul { gap: 20px; margin-top: 10px; }

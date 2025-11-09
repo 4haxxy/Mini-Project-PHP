@@ -1,5 +1,4 @@
 <?php
-// ✅ Database connection setup
 $servername = "127.0.0.1";
 $username = "root";
 $password = "";
@@ -7,16 +6,11 @@ $dbname = "car_rental";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// ✅ Check connection
+
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-/* ==========================================================
-   USER FUNCTIONS
-   ========================================================== */
-
-// Register new user (used by Signup.php)
 function registerUser($data) {
     global $conn;
     $sql = "INSERT INTO users 

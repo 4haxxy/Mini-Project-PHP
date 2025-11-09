@@ -11,7 +11,6 @@ $licenseType = $expiry_date = '';
 $agreed_terms = $agreed_privacy = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Collect POST data safely
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
     $confirm = $_POST['confirm_password'] ?? '';
@@ -48,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (!$agreed_terms || !$agreed_privacy) {
         $error_message = 'You must agree to the Terms and Privacy Policy.';
     } else {
-        // Check if username or email already exists
+        // nk cek username or email dah wujud ke tak
         $check = $conn->prepare("SELECT id FROM users WHERE username = ? OR email = ?");
         if ($check === false) {
             $error_message = "Database error: " . $conn->error;
@@ -240,7 +239,7 @@ input:focus, select:focus {
 
 <form method="post" enctype="multipart/form-data">
 
-<!-- Account Details -->
+
 <fieldset>
 <legend>Account Details</legend>
 <div class="row">
@@ -250,7 +249,7 @@ input:focus, select:focus {
 </div>
 </fieldset>
 
-<!-- Personal Details -->
+
 <fieldset>
 <legend>Personal Details</legend>
 <div class="row">
@@ -309,7 +308,6 @@ input:focus, select:focus {
 <div><label>Postcode *</label><input type="text" name="Postcode" required value="<?= htmlspecialchars($postcode) ?>"></div>
 </fieldset>
 
-<!-- License -->
 <fieldset>
 <legend>Driver's License</legend>
 <div class="row">
@@ -326,7 +324,6 @@ input:focus, select:focus {
 <div><label>Upload License Photo *</label><input type="file" name="photo" accept="image/*"></div>
 </fieldset>
 
-<!-- Terms -->
 <fieldset>
     <label><input type="checkbox" name="terms_conditions" <?= $agreed_terms?'checked':'' ?>> I accept Terms & Conditions *</label>
     <label><input type="checkbox" name="privacy_policy" <?= $agreed_privacy?'checked':'' ?>> I accept Privacy Policy *</label>

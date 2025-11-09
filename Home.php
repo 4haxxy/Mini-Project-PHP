@@ -28,7 +28,7 @@ $username = $loggedIn ? $_SESSION['username'] : 'Guest';
         color: var(--text);
     }
 
-    /* NAVIGATION BAR */
+
     nav {
         background: var(--primary);
         color: white;
@@ -64,7 +64,7 @@ $username = $loggedIn ? $_SESSION['username'] : 'Guest';
         color: #dce8ff;
     }
 
-    /* HERO SECTION */
+
     .hero {
         background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
                     url('https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1470&q=80');
@@ -101,7 +101,7 @@ $username = $loggedIn ? $_SESSION['username'] : 'Guest';
         background: var(--primary-dark);
     }
 
-    /* ABOUT SECTION */
+
     .about {
         text-align: center;
         padding: 70px 20px;
@@ -121,7 +121,7 @@ $username = $loggedIn ? $_SESSION['username'] : 'Guest';
         line-height: 1.6;
     }
 
-    /* FEATURED CARS */
+
     .cars-section {
         padding: 60px 50px;
         background: #eef3fb;
@@ -181,7 +181,7 @@ $username = $loggedIn ? $_SESSION['username'] : 'Guest';
         margin-top: 5px;
     }
 
-    /* FOOTER */
+
     footer {
         text-align: center;
         background: var(--primary);
@@ -191,7 +191,7 @@ $username = $loggedIn ? $_SESSION['username'] : 'Guest';
         margin-top: 40px;
     }
 
-    /* RESPONSIVE */
+
     @media (max-width: 768px) {
         nav {
             flex-direction: column;
@@ -217,7 +217,6 @@ $username = $loggedIn ? $_SESSION['username'] : 'Guest';
 </head>
 <body>
 
-<!-- NAVIGATION BAR -->
 <nav>
     <div class="logo"> Abdul Capydeng's Car Rental</div>
     <ul>
@@ -232,14 +231,12 @@ $username = $loggedIn ? $_SESSION['username'] : 'Guest';
     </ul>
 </nav>
 
-<!-- HERO SECTION -->
 <section class="hero">
     <h1>Welcome, <?php echo htmlspecialchars($username); ?> 👋</h1>
     <p>Drive your dream car today — affordable, fast, and easy booking experience.</p>
     <a href="CarForm.php" class="btn">Book Now</a>
 </section>
 
-<!-- ABOUT SECTION -->
 <section class="about">
     <h2>Why Choose Us?</h2>
     <p>
@@ -249,7 +246,6 @@ $username = $loggedIn ? $_SESSION['username'] : 'Guest';
     </p>
 </section>
 
-<!-- FEATURED CARS -->
 <section class="cars-section">
     <h2>Our Popular Cars</h2>
     <div class="car-grid">
