@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = htmlspecialchars($_POST['name']);
     $nric = htmlspecialchars($_POST['nric']);
     $email = htmlspecialchars($_POST['email']);
-    $vehicle = htmlspecialchars($_POST['Vehicle_Model']);
+    $vehicle = $_POST['Vehicle_Model'];
     $durationType = $_POST['Duration_Type'];
     $date_start = $_POST['Date_Start'];
     $date_end = $_POST['Date_End'];
@@ -26,50 +26,69 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $deposit = $_POST['Deposit'];
     $payment = $_POST['Payment'];
 
+    // Handle file upload
     $photoPath = "";
     if (!empty($_FILES['photo']['name'])) {
         $photoName = basename($_FILES['photo']['name']);
         $photoTmp = $_FILES['photo']['tmp_name'];
         $uploadDir = "uploads/";
-        if (!is_dir($uploadDir)) mkdir($uploadDir);
-        $photoPath = $uploadDir . $photoName;
-        move_uploaded_file($photoTmp, $photoPath);
+        if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
+        // Add timestamp to avoid duplicate file names
+        $photoPath = $uploadDir . time() . "_" . $photoName;
+        if (!move_uploaded_file($photoTmp, $photoPath)) {
+            $error = "⚠️ Failed to upload photo.";
+        }
     }
 
-    // Check for overlapping bookings
-    $checkQuery = "SELECT * FROM bookings 
-                   WHERE Vehicle_Model = ? 
-                   AND (
-                       (Date_Start <= ? AND Date_End >= ?)
-                       OR (Date_Start <= ? AND Date_End >= ?)
-                   )";
-    $stmt = $conn->prepare($checkQuery);
-    $stmt->bind_param("sssss", $vehicle, $date_start, $date_start, $date_end, $date_end);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    if (empty($error)) {
+        // Check overlapping bookings
+        $checkQuery = "SELECT * FROM bookings 
+                       WHERE Vehicle_Model = ? 
+                       AND (
+                           (Date_Start <= ? AND Date_End >= ?)
+                           OR (Date_Start <= ? AND Date_End >= ?)
+                       )";
+        $stmt = $conn->prepare($checkQuery);
+        if (!$stmt) {
+            die("Prepare failed for checkQuery: " . $conn->error);
+        }
+        $stmt->bind_param("sssss", $vehicle, $date_start, $date_start, $date_end, $date_end);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-    if ($result->num_rows > 0) {
-        $error = "❌ Sorry, this car is already booked for the selected date range.";
-    } else {
-        $insertQuery = "INSERT INTO bookings 
-            (username, name, nric, email, Vehicle_Model, Duration, Date_Start, Date_End, event_time, Fuel_Type, Fee, Deposit, Payment, photo) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($insertQuery);
-        $stmt->bind_param(
-            "ssssssssssssss",
-            $username, $name, $nric, $email, $vehicle, $durationType,
-            $date_start, $date_end, $event_time, $fuel_type,
-            $fee, $deposit, $payment, $photoPath
-        );
-
-        if ($stmt->execute()) {
-            $showPopup = true;
+        if ($result->num_rows > 0) {
+            $error = "❌ Sorry, this car is already booked for the selected date range.";
         } else {
-            $error = "⚠️ Booking failed to save. Please try again.";
+            // Insert booking including name, nric, email, and photo
+            $insertQuery = "INSERT INTO bookings 
+                (username, name, nric, email, Vehicle_Model, Duration_Type, Date_Start, Date_End, event_time, Fuel_Type, Fee, Deposit, Payment, photo) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            
+            $stmt = $conn->prepare($insertQuery);
+            if (!$stmt) {
+                die("Prepare failed for insertQuery: " . $conn->error);
+            }
+
+            $stmt->bind_param(
+                "ssssssssssssss",
+                $username, $name, $nric, $email, $vehicle, $durationType,
+                $date_start, $date_end, $event_time, $fuel_type,
+                $fee, $deposit, $payment, $photoPath
+            );
+
+            if ($stmt->execute()) {
+                $showPopup = true;
+            } else {
+                $error = "⚠️ Booking failed to save. Please try again. Error: " . $stmt->error;
+            }
         }
     }
 }
 ?>
+
+
+
+
 
 <html>
 <head>

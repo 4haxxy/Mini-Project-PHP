@@ -40,7 +40,6 @@ $result = $stmt->get_result();
         color: #333;
     }
 
-    /* NAVIGATION BAR */
     nav {
         background: var(--primary);
         display: flex;
@@ -51,10 +50,7 @@ $result = $stmt->get_result();
         box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
-    .logo {
-        font-size: 20px;
-        font-weight: 600;
-    }
+    .logo { font-size: 20px; font-weight: 600; }
 
     nav ul {
         list-style: none;
@@ -71,29 +67,14 @@ $result = $stmt->get_result();
         transition: 0.3s;
     }
 
-    nav ul li a:hover {
-        color: #dce8ff;
-    }
+    nav ul li a:hover { color: #dce8ff; }
 
-    /* HEADER */
-    .header {
-        text-align: center;
-        margin-top: 60px;
-        color: var(--primary-dark);
-    }
+    .header { text-align: center; margin-top: 60px; color: var(--primary-dark); }
 
-    .header h1 {
-        margin-bottom: 5px;
-        font-size: 32px;
-        letter-spacing: 0.5px;
-    }
+    .header h1 { margin-bottom: 5px; font-size: 32px; letter-spacing: 0.5px; }
 
-    .header p {
-        color: #555;
-        font-size: 16px;
-    }
+    .header p { color: #555; font-size: 16px; }
 
-    /* BOOKING CONTAINER */
     .bookings-container {
         width: 90%;
         max-width: 1200px;
@@ -103,7 +84,6 @@ $result = $stmt->get_result();
         gap: 25px;
     }
 
-    /* BOOKING CARD */
     .booking-card {
         background: white;
         border-radius: 12px;
@@ -117,21 +97,11 @@ $result = $stmt->get_result();
         box-shadow: 0 8px 25px rgba(0,0,0,0.12);
     }
 
-    .booking-card h3 {
-        color: var(--primary);
-        margin-top: 0;
-        font-size: 20px;
-        margin-bottom: 10px;
-    }
+    .booking-card h3 { color: var(--primary); margin-top: 0; font-size: 20px; margin-bottom: 10px; }
 
-    .booking-card .detail {
-        font-size: 15px;
-        margin: 6px 0;
-    }
+    .booking-card .detail { font-size: 15px; margin: 6px 0; }
 
-    .detail strong {
-        color: #444;
-    }
+    .detail strong { color: #444; }
 
     .status {
         display: inline-block;
@@ -147,7 +117,6 @@ $result = $stmt->get_result();
     .pending { background: var(--warning); color: #333; }
     .cancelled { background: var(--danger); }
 
-    /* EMPTY STATE */
     .no-bookings {
         text-align: center;
         font-size: 18px;
@@ -166,11 +135,8 @@ $result = $stmt->get_result();
         transition: background 0.3s;
     }
 
-    .no-bookings a:hover {
-        background: var(--primary-dark);
-    }
+    .no-bookings a:hover { background: var(--primary-dark); }
 
-    /* FOOTER */
     footer {
         background: var(--primary);
         color: white;
@@ -182,29 +148,15 @@ $result = $stmt->get_result();
         width: 100%;
     }
 
-    /* RESPONSIVE NAV */
     @media (max-width: 768px) {
-        nav {
-            flex-direction: column;
-            align-items: flex-start;
-            padding: 15px 25px;
-        }
-
-        nav ul {
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .header h1 {
-            font-size: 26px;
-        }
+        nav { flex-direction: column; align-items: flex-start; padding: 15px 25px; }
+        nav ul { flex-direction: column; gap: 10px; margin-top: 10px; }
+        .header h1 { font-size: 26px; }
     }
 </style>
 </head>
 <body>
 
-<!-- NAVIGATION BAR -->
 <nav>
     <div class="logo"> Abdul Capydeng's Car Rental</div>
     <ul>
@@ -215,24 +167,22 @@ $result = $stmt->get_result();
     </ul>
 </nav>
 
-<!-- HEADER -->
 <div class="header">
     <h1>Welcome, <?php echo htmlspecialchars($username); ?> 👋</h1>
     <p>Your latest bookings are shown below.</p>
 </div>
 
-<!-- BOOKINGS SECTION -->
 <?php if ($result->num_rows > 0): ?>
 <div class="bookings-container">
     <?php while ($row = $result->fetch_assoc()): ?>
         <div class="booking-card">
-            <h3><?php echo htmlspecialchars($row['Vehicle_Model']); ?></h3>
-            <p class="detail"><strong>Duration:</strong> <?php echo htmlspecialchars($row['Duration']); ?></p>
-            <p class="detail"><strong>Start Date:</strong> <?php echo htmlspecialchars($row['Date_Start']); ?></p>
-            <p class="detail"><strong>End Date:</strong> <?php echo htmlspecialchars($row['Date_End']); ?></p>
-            <p class="detail"><strong>Fee:</strong> RM <?php echo htmlspecialchars($row['Fee']); ?></p>
-            <p class="detail"><strong>Deposit:</strong> RM <?php echo htmlspecialchars($row['Deposit']); ?></p>
-            <p class="detail"><strong>Payment:</strong> <?php echo htmlspecialchars($row['Payment']); ?></p>
+            <h3><?php echo htmlspecialchars($row['Vehicle_Model'] ?? 'N/A'); ?></h3>
+            <p class="detail"><strong>Duration:</strong> <?php echo htmlspecialchars($row['Duration_Type'] ?? 'N/A'); ?></p>
+            <p class="detail"><strong>Start Date:</strong> <?php echo htmlspecialchars($row['Date_Start'] ?? 'N/A'); ?></p>
+            <p class="detail"><strong>End Date:</strong> <?php echo htmlspecialchars($row['Date_End'] ?? 'N/A'); ?></p>
+            <p class="detail"><strong>Fee:</strong> RM <?php echo htmlspecialchars(number_format($row['Fee'] ?? 0, 2)); ?></p>
+            <p class="detail"><strong>Deposit:</strong> RM <?php echo htmlspecialchars(number_format($row['Deposit'] ?? 0, 2)); ?></p>
+            <p class="detail"><strong>Payment:</strong> <?php echo htmlspecialchars($row['Payment'] ?? 'N/A'); ?></p>
             <span class="status confirmed">Confirmed</span>
         </div>
     <?php endwhile; ?>
